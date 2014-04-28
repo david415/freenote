@@ -8,11 +8,7 @@ main() {
   : ${AUDIODEVICE:=alsa_input.usb-046d_0825_6879E360-02-U0x46d0x825.analog-mono}
   : ${VIDEODEVICE:=/dev/video0}
   #
-  # Assuming that you're authorized by the FSF - the video should be available
-  # here:
-  #
-  #   http://live.fsf.org/keynote.ogv
-  #
+  # Specify the interface and port of the Tor Hidden Service
   : ${LOCALIP:=127.0.0.1}
   : ${LOCALPORT:=8080}
   : ${FRAMERATE:=10}
@@ -20,9 +16,9 @@ main() {
   stream
 }
 
-# Audio and video streaming on Tor Hidden Service and streaming to FSF
+# Audio and video streaming on Tor Hidden Service
 stream() {
-  usewithtor gst-launch-0.10 \
+  gst-launch-0.10 \
   v4l2src ! \
   video/x-raw-yuv,device="$VIDEODEVICE",width="640,height=480,framerate=(fraction)$FRAMERATE/1" ! queue ! \
   ffmpegcolorspace ! tee name=localview ! theoraenc ! queue ! \
